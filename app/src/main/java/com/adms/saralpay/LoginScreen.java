@@ -199,7 +199,7 @@ public class LoginScreen extends AppCompatActivity {
 
                     if (isVersionCodeUpdated) {
                         if (edtPhoneNumber.getText().length() == 10) {
-                            if (edtPinPwd.getText().length() > 4) {
+                            if (edtPinPwd.getText().length() >= 4) {
                                 doLogin();
                             } else {
                                 Utility.ping(mContext, "Enter a 4 digit pin");

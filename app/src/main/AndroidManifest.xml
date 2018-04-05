@@ -65,7 +65,7 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".PaymentReportScreen"
-            android:screenOrientation="userLandscape"
+            android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".RegistrationScreen"
