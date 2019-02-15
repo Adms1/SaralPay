@@ -69,6 +69,7 @@ public class PaymentSuccessScreen extends AppCompatActivity {
         txtUserName.setText(AppConfiguration.CustomerDetail.get("CompanyName"));
 
         if (getIntent().getStringExtra("responseCode").equalsIgnoreCase("0")) {
+
             imvSuccessFail.setImageResource(R.drawable.success_icon);
             txtSucessFail.setText("Success");
             txtSucessFailDesc.setText("Your transaction was successful");

@@ -322,7 +322,7 @@ public class LoginScreen extends AppCompatActivity {
                         Utility.setPref(mContext, "CustomerID", AppConfiguration.CustomerDetail.get("CustomerID").toString());
                         Utility.setPref(mContext, "phone", AppConfiguration.CustomerDetail.get("CustomerMobile").toString());
                         if (AppConfiguration.planstatus.equalsIgnoreCase("0")) {
-                            Intent iPlan = new Intent(mContext, HomeScreen.class);
+                            Intent iPlan = new Intent(mContext,HomeScreen.class);
                             startActivity(iPlan);
                         }
                         else

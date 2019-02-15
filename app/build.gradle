@@ -9,13 +9,13 @@ repositories {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.adms.saralpay"
         minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 9
-        versionName "1.17030110"
+        targetSdkVersion 26
+        versionCode 11
+        versionName "1.19021517"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
