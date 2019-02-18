@@ -125,7 +125,9 @@ public class HomeScreen extends AppCompatActivity {
 
         rlTopBar = (RelativeLayout) findViewById(R.id.rlTopBar);
         edtAmount = (EditText) findViewById(R.id.edtAmount);
-        edtAmount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+        //edtAmount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+        edtAmount.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         edtNarration = (EditText) findViewById(R.id.edtNarration);
         btnCharge = (Button) findViewById(R.id.btnCharge);
         btnLogOut = (ImageButton) findViewById(R.id.btnLogOut);
@@ -319,7 +321,7 @@ public class HomeScreen extends AppCompatActivity {
                         }
                         intent.putExtra("order_id", transactionID);
                         intent.putExtra("amount", edtAmount.getText().toString());
-                        intent.putExtra("mode", "TEST");
+                        intent.putExtra("mode", "LIVE");
                         intent.putExtra("description", edtNarration.getText().toString());
                         startActivity(intent);
                     }else {

@@ -226,7 +226,7 @@ public class ForgotPasswordScreen extends AppCompatActivity{
         builder.setMessage(mContext.getResources().getString(R.string.strOtpMesgText));
 
         input = new EditText(this);
-        input.setText(receivedOTP);
+//        input.setText(receivedOTP);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         final int maxLength = 6;
         input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
