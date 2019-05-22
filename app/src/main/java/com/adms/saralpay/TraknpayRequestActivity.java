@@ -49,7 +49,7 @@ public class TraknpayRequestActivity extends AppCompatActivity {
         String amount = "";
         String currency = "INR";
         String description = "";
-        String name = AppConfiguration.CustomerDetail.get("CustomerName");
+        String name = AppConfiguration.CustomerDetail.get("CustomerName").trim();
         String email = "saralpayonline@gmail.com";//saralpayonline@gmail.com
         String phone = "7575809733";//7575809733
         String address_line_1 = "-";
@@ -72,14 +72,15 @@ public class TraknpayRequestActivity extends AppCompatActivity {
         // Getting these values from Main activity
         extras = getIntent().getExtras();
         if (extras != null) {
-            mode = extras.getString("mode");
-            amount = extras.getString("amount");
-            order_id = extras.getString("order_id");
-            description = extras.getString("description");
+            mode = extras.getString("mode").trim();
+//            mode = "TEST";
+            amount = extras.getString("amount").trim();
+            order_id = extras.getString("order_id").trim();
+            description = extras.getString("description").trim();
 
             if(extras.containsKey("CardDetails")) {
 
-                String cardDetails = extras.getString("CardDetails");
+                String cardDetails = extras.getString("CardDetails").trim();
                 String[] details = cardDetails.split("\\-");//card.CardNumber + "-" + card.CardHolderName + " - " + card.ValidToDate
                 String expiryDate = details[2].trim();
                 expiryDate = expiryDate.substring(0, 2) + "/" + expiryDate.substring(2, expiryDate.length());
@@ -100,7 +101,7 @@ public class TraknpayRequestActivity extends AppCompatActivity {
         mapHashData.put("address_line_1", address_line_1);
         mapHashData.put("address_line_2", address_line_2);
         mapHashData.put("amount", amount);
-        mapHashData.put("api_key", AppConfiguration.api_key);
+        mapHashData.put("api_key", AppConfiguration.api_key.trim());
         mapHashData.put("city", city);
         mapHashData.put("country", country);
         mapHashData.put("currency", currency);
@@ -124,7 +125,7 @@ public class TraknpayRequestActivity extends AppCompatActivity {
         mapPostData.put("address_line_1", address_line_1);
         mapPostData.put("address_line_2", address_line_2);
         mapPostData.put("amount", amount);
-        mapPostData.put("api_key", AppConfiguration.api_key);
+        mapPostData.put("api_key", AppConfiguration.api_key.trim());
 
         if(extras.containsKey("CardDetails")) {
             mapPostData.put("card_exp_month", card_exp_month);
@@ -152,7 +153,7 @@ public class TraknpayRequestActivity extends AppCompatActivity {
         mapPostData.put("zip_code", zip_code);
         mapPostData.put("show_saved_cards",show_saved_cards);
 
-        String hashData = AppConfiguration.secret_key;
+        String hashData = AppConfiguration.secret_key.trim();
         String postData = "";
 
         for (String key : new TreeSet<String>(mapHashData.keySet())) {
@@ -161,6 +162,8 @@ public class TraknpayRequestActivity extends AppCompatActivity {
 
             }
         }
+
+//        hashData = "531553f8d6b906aa3342948a3c535ca301de9d5d|-|-|100|535ee616-a161-4e16-88ed-a338582e841a|Ahmedabad|IND|INR|coin purchase|antra.vala@gmail.com|LIVE|Antra|1558498709315|7575809733|https://biz.traknpay.in/tnp/return_page_android.php|n|Gujarat|udf1|udf2|udf3|udf4|udf5|380015";
 
         // Sort the map by key and create the hashData and postData
         for (String key : new TreeSet<String>(mapPostData.keySet())) {
@@ -173,6 +176,8 @@ public class TraknpayRequestActivity extends AppCompatActivity {
         // Generate the hash key using hashdata and append the has to postData query string
         String hash = generateSha512Hash(hashData).toUpperCase();
         postData = postData + "hash=" + hash;
+
+//        postData = "address_line_1=-&address_line_2=-&amount=100&api_key=535ee616-a161-4e16-88ed-a338582e841a&city=Ahmedabad&country=IND&currency=INR&description=coin purchase&email=antra.vala@gmail.com&mode=LIVE&name=Antra&order_id=1558498709315&phone=7575809733&return_url=https://biz.traknpay.in/tnp/return_page_android.php&show_saved_cards=n&state=Gujarat&udf1=udf1&udf2=udf2&udf3=udf3&udf4=udf4&udf5=udf5&zip_code=380015&hash=" + hash;
 
         Log.d(TAG, "HashData: " + hashData);
 //        Log.d(TAG, "Hash: " + hash);
