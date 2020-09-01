@@ -1,6 +1,7 @@
 package com.adms.saralpay;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -47,6 +48,9 @@ import com.scdroid.ccid.USBReader;
 import com.scdroid.smartcard.Card;
 import com.scdroid.smartcard.CreditCard;
 import com.scdroid.smartcard.SCException;
+import com.test.pg.secure.pgsdkv4.PGConstants;
+import com.test.pg.secure.pgsdkv4.PaymentGatewayPaymentInitializer;
+import com.test.pg.secure.pgsdkv4.PaymentParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +59,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -95,7 +100,6 @@ public class HomeScreen extends AppCompatActivity {
     private boolean isVersionCodeUpdated = false;
 
     Bundle mBundle = new Bundle();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -315,15 +319,17 @@ public class HomeScreen extends AppCompatActivity {
                     }
                     if(transactionID != null) {
                         Log.v("CardPresent: ", String.valueOf(isCardPresent));
-                        Intent intent = new Intent(HomeScreen.this, TraknpayRequestActivity.class);
-                        if (isCardPresent) {
-                            intent.putExtra("CardDetails", cardDetail);
-                        }
-                        intent.putExtra("order_id", transactionID);
-                        intent.putExtra("amount", edtAmount.getText().toString());
-                        intent.putExtra("mode", "LIVE");
-                        intent.putExtra("description", edtNarration.getText().toString());
-                        startActivity(intent);
+
+                        callPayment();
+
+//                        Intent intent = new Intent(HomeScreen.this, TraknpayNewActivity.class);
+//                        if (isCardPresent) {
+//                            intent.putExtra("CardDetails", cardDetail);
+//                        }
+//                        intent.putExtra("order_id", transactionID);
+//                        intent.putExtra("amount", edtAmount.getText().toString());
+//                        intent.putExtra("description", edtNarration.getText().toString());
+//                        startActivity(intent);
                     }else {
                         Utility.ping(mContext, "Transaction ID not found. Please try again");
                     }
@@ -831,31 +837,31 @@ public class HomeScreen extends AppCompatActivity {
                 .host("api.instamojo.com");
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE){// && data != null) {
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == Constants.REQUEST_CODE){// && data != null) {
             /*String orderID = data.getStringExtra(Constants.ORDER_ID);
             String transactionID = data.getStringExtra(Constants.TRANSACTION_ID);
             String paymentID = data.getStringExtra(Constants.PAYMENT_ID);*/
 
-            // Check transactionID, orderID, and orderID for null before using them to check the Payment status.
+    // Check transactionID, orderID, and orderID for null before using them to check the Payment status.
 //            if (orderID != null && transactionID != null && paymentID != null) {
-            checkPaymentStatus();//transactionID);
+//            checkPaymentStatus();//transactionID);
 //            } else {
 //                Utility.ping(mContext, "Oops!! Payment was cancelled");
 //            }
-        }else {
-            Utility.ping(mContext, "Oops!! Payment was cancelled");
-        }
-    }
+//        }else {
+//            Utility.ping(mContext, "Oops!! Payment was cancelled");
+//        }
+//    }
 
     /**
      * Will check for the transaction status of a particular Transaction
-     *
+     * <p>
      * //@param transactionID Unique identifier of a transaction ID
      */
-    private void checkPaymentStatus(){//final String transactionID) {
+    private void checkPaymentStatus() {//final String transactionID) {
         /*if (accessToken == null || transactionID == null) {
             return;
         }*/
@@ -1077,5 +1083,84 @@ public class HomeScreen extends AppCompatActivity {
     public void onBackPressed() {
 //        super.onBackPressed();
 //        finish();
+    }
+
+    private void callPayment() {
+        Random rnd = new Random();
+        int n = 100000 + rnd.nextInt(900000);
+        SampleAppConstants.PG_ORDER_ID = Integer.toString(n);
+
+        PaymentParams pgPaymentParams = new PaymentParams();
+        pgPaymentParams.setAPiKey(SampleAppConstants.PG_API_KEY);
+        pgPaymentParams.setAmount(edtAmount.getText().toString());
+        pgPaymentParams.setEmail(SampleAppConstants.PG_EMAIL);
+        pgPaymentParams.setName(SampleAppConstants.PG_NAME);
+        pgPaymentParams.setPhone(SampleAppConstants.PG_PHONE);
+        pgPaymentParams.setOrderId(transactionID);
+        pgPaymentParams.setCurrency(SampleAppConstants.PG_CURRENCY);
+        pgPaymentParams.setDescription(edtNarration.getText().toString());
+        pgPaymentParams.setCity(SampleAppConstants.PG_CITY);
+        pgPaymentParams.setState(SampleAppConstants.PG_STATE);
+        pgPaymentParams.setAddressLine1(SampleAppConstants.PG_ADD_1);
+        pgPaymentParams.setAddressLine2(SampleAppConstants.PG_ADD_2);
+        pgPaymentParams.setZipCode(SampleAppConstants.PG_ZIPCODE);
+        pgPaymentParams.setCountry(SampleAppConstants.PG_COUNTRY);
+        pgPaymentParams.setReturnUrl(SampleAppConstants.PG_RETURN_URL);
+        pgPaymentParams.setMode(SampleAppConstants.PG_MODE);
+        pgPaymentParams.setUdf1(SampleAppConstants.PG_UDF1);
+        pgPaymentParams.setUdf2(SampleAppConstants.PG_UDF2);
+        pgPaymentParams.setUdf3(SampleAppConstants.PG_UDF3);
+        pgPaymentParams.setUdf4(SampleAppConstants.PG_UDF4);
+        pgPaymentParams.setUdf5(SampleAppConstants.PG_UDF5);
+        pgPaymentParams.setEnableAutoRefund("n");
+        pgPaymentParams.setOfferCode("testcoupon");
+        //pgPaymentParams.setSplitInfo("{\"vendors\":[{\"vendor_code\":\"24VEN985\",\"split_amount_percentage\":\"20\"}]}");
+
+        PaymentGatewayPaymentInitializer pgPaymentInitialzer = new PaymentGatewayPaymentInitializer(pgPaymentParams, HomeScreen.this);
+        pgPaymentInitialzer.initiatePaymentProcess();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == PGConstants.REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    String paymentResponse = data.getStringExtra(PGConstants.PAYMENT_RESPONSE);
+                    System.out.println("paymentResponse: " + paymentResponse);
+                    if (paymentResponse.equals("null")) {
+                        System.out.println("Transaction Error!");
+//                        transactionIdView.setText("Transaction ID: NIL");
+//                        transactionStatusView.setText("Transaction Status: Transaction Error!");
+                    } else {
+                        JSONObject response = new JSONObject(paymentResponse);
+//                        transactionIdView.setText("Transaction ID: "+response.getString("transaction_id"));
+//                        transactionStatusView.setText("Transaction Status: "+response.getString("response_message"));
+
+                        Intent intent = new Intent(getApplicationContext(), PaymentSuccessScreen.class);
+                        intent.putExtra("transactionId", response.getString("transaction_id"));
+                        intent.putExtra("responseCode", response.getString("response_code"));
+                        intent.putExtra("amount", response.getString("amount"));
+                        intent.putExtra("description", response.getString("description"));
+                        intent.putExtra("order_id", response.getString("order_id"));
+                        if (isCardPresent) {
+                            intent.putExtra("Trans_Type", "1");
+                        } else {
+                            intent.putExtra("Trans_Type", "2");
+                        }
+                        startActivity(intent);
+                        finish();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+
+        }
     }
 }

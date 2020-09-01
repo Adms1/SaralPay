@@ -96,10 +96,10 @@
                 android:background="@drawable/box1"
                 android:gravity="center"
                 android:hint="@string/strAmount"
-                android:inputType="numberDecimal"
+                android:imeOptions="actionNext"
+                android:inputType="phone"
                 android:maxLines="1"
-                android:padding="10dp"
-                android:singleLine="true" />
+                android:padding="10dp" />
 
             <TextView
                 android:id="@+id/txtNarration"
