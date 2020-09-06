@@ -14,8 +14,8 @@ android {
         applicationId "com.adms.saralpay"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 15
-        versionName "1.20090115"
+        versionCode 16
+        versionName "1.20090312"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
