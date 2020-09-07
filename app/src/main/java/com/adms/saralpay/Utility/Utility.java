@@ -23,24 +23,20 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adms.saralpay.AsyncTask.UpgradeCustomerStatusAsyncTask;
-import com.adms.saralpay.HomeScreen;
 import com.adms.saralpay.Interface.OnCompletionListner;
 import com.adms.saralpay.LoginScreen;
-import com.adms.saralpay.MyProfileScreen;
 import com.adms.saralpay.R;
 
 import java.io.ByteArrayOutputStream;
@@ -73,11 +69,8 @@ public class Utility {
         ConnectivityManager cm = (ConnectivityManager) ctxt
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni == null) {
-            // There are no active networks.
-            return false;
-        } else
-            return true;
+        // There are no active networks.
+        return ni != null;
     }
 
     public static String getLocale(Context context) {
@@ -168,12 +161,12 @@ public class Utility {
         Calendar calendar = Calendar.getInstance();
         StringBuilder builer = new StringBuilder();
         builer.append("A00");
-        builer.append(String.valueOf(calendar.get(Calendar.YEAR)).toString().substring(2, 4));
-        builer.append(String.valueOf(calendar.get(Calendar.MONTH) + 1).toString());
-        builer.append(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)).toString());
-        builer.append(String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)).toString());
-        builer.append(String.valueOf(calendar.get(Calendar.MINUTE) < 10 ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE)).toString());
-        builer.append(String.valueOf(calendar.get(Calendar.SECOND)).toString());
+        builer.append(String.valueOf(calendar.get(Calendar.YEAR)), 2, 4);
+        builer.append((calendar.get(Calendar.MONTH) + 1));
+        builer.append(calendar.get(Calendar.DAY_OF_MONTH));
+        builer.append(calendar.get(Calendar.HOUR_OF_DAY));
+        builer.append(calendar.get(Calendar.MINUTE) < 10 ? "0" + calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE));
+        builer.append(calendar.get(Calendar.SECOND));
 
         return builer.toString();
     }
@@ -241,12 +234,12 @@ public class Utility {
         }
     }
 
-    public static String getIMEI(Context context) {
-        TelephonyManager mngr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
-        String imei = mngr.getDeviceId();
-        return imei;
-
-    }
+//    public static String getIMEI(Context context) {
+//        TelephonyManager mngr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+//        String imei = mngr.getDeviceId();
+//        return imei;
+//
+//    }
 
     public static boolean isLocationEnabled(Context context) {
         int locationMode = 0;

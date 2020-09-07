@@ -288,7 +288,7 @@ public class HomeScreen extends AppCompatActivity {
         hashMap.put("Description", edtNarration.getText().toString());
 
         if (isBoolean_permission_phoneState) {
-            hashMap.put("IMEINumber", Utility.getIMEI(mContext));
+            hashMap.put("IMEINumber", "0");
         } else {
             hashMap.put("IMEINumber", "");
         }
@@ -565,7 +565,7 @@ public class HomeScreen extends AppCompatActivity {
         hashMap.put("Description", edtNarration.getText().toString());
 
         if (isBoolean_permission_phoneState) {
-            hashMap.put("IMEINumber", Utility.getIMEI(mContext));
+            hashMap.put("IMEINumber", "0");
         } else {
             hashMap.put("IMEINumber", "");
         }

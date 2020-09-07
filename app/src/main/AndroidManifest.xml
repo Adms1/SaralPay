@@ -22,6 +22,7 @@
         tools:replace="android:icon"
         android:theme="@style/AppTheme">
         <activity android:name=".TraknpayNewActivity" />
+
         <activity
             android:name=".LoginScreen"
             android:screenOrientation="portrait"
